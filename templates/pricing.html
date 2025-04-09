@@ -1,0 +1,371 @@
+{% extends "base.html" %}
+
+{% block title %}Pricing Plans - XTLive{% endblock %}
+
+{% block content %}
+<div class="mb-4 animate-fade-in">
+    <h1 class="fw-bold mb-2">Pricing Plans</h1>
+    <p class="text-muted">Choose the right plan for your Discord automation needs</p>
+</div>
+
+<div class="row g-4 mb-5">
+    <!-- Free Plan -->
+    <div class="col-lg-4 animate-fade-in" style="animation-delay: 100ms;">
+        <div class="card h-100 border-0">
+            <div class="card-body p-4 d-flex flex-column">
+                <div class="text-center mb-4">
+                    <h5 class="text-muted text-uppercase small fw-bold">Free</h5>
+                    <h2 class="display-5 fw-bold mb-2">$0</h2>
+                    <p class="text-muted mb-0">Perfect for testing and small projects</p>
+                </div>
+                
+                <div class="mb-4">
+                    <ul class="list-unstyled">
+                        <li class="mb-3 d-flex align-items-center">
+                            <div class="me-3 text-success">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <span>Connect 1 Discord bot</span>
+                        </li>
+                        <li class="mb-3 d-flex align-items-center">
+                            <div class="me-3 text-success">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <span>Up to 3 servers</span>
+                        </li>
+                        <li class="mb-3 d-flex align-items-center">
+                            <div class="me-3 text-success">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <span>Basic bot commands</span>
+                        </li>
+                        <li class="mb-3 d-flex align-items-center">
+                            <div class="me-3 text-success">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <span>Standard uptime monitoring</span>
+                        </li>
+                        <li class="mb-3 d-flex align-items-center">
+                            <div class="me-3 text-success">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <span>Community support</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="mt-auto text-center">
+                    <a href="{{ url_for('dashboard') }}" class="btn btn-outline-primary w-100 py-2">
+                        <i class="fas fa-user-plus me-2"></i> Start Free
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Pro Plan -->
+    <div class="col-lg-4 animate-fade-in" style="animation-delay: 150ms;">
+        <div class="card h-100 border-0 position-relative overflow-hidden">
+            <div class="position-absolute top-0 start-50 translate-middle-x banner-ribbon">
+                <span class="badge bg-primary px-3 py-2">MOST POPULAR</span>
+            </div>
+            <div class="card-body p-4 d-flex flex-column">
+                <div class="text-center mb-4">
+                    <h5 class="text-primary text-uppercase small fw-bold">Pro</h5>
+                    <h2 class="display-5 fw-bold mb-2">$15 <small class="text-muted fs-6">/month</small></h2>
+                    <p class="text-muted mb-0">Great for growing communities</p>
+                </div>
+                
+                <div class="mb-4">
+                    <ul class="list-unstyled">
+                        <li class="mb-3 d-flex align-items-center">
+                            <div class="me-3 text-success">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <span>Connect 3 Discord bots</span>
+                        </li>
+                        <li class="mb-3 d-flex align-items-center">
+                            <div class="me-3 text-success">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <span>Up to 10 servers</span>
+                        </li>
+                        <li class="mb-3 d-flex align-items-center">
+                            <div class="me-3 text-success">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <span>Advanced bot commands</span>
+                        </li>
+                        <li class="mb-3 d-flex align-items-center">
+                            <div class="me-3 text-success">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <span>Detailed analytics</span>
+                        </li>
+                        <li class="mb-3 d-flex align-items-center">
+                            <div class="me-3 text-success">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <span>Priority uptime monitoring</span>
+                        </li>
+                        <li class="mb-3 d-flex align-items-center">
+                            <div class="me-3 text-success">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <span>Email + chat support</span>
+                        </li>
+                        <li class="mb-3 d-flex align-items-center">
+                            <div class="me-3 text-success">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <span>Custom scripts (1 per bot)</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="mt-auto text-center">
+                    <a href="https://discord.gg/WpPWbHUtbt" target="_blank" class="btn btn-primary w-100 py-2 subscribe-button">
+                        <i class="fas fa-crown me-2"></i> Subscribe Now
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Enterprise Plan -->
+    <div class="col-lg-4 animate-fade-in" style="animation-delay: 200ms;">
+        <div class="card h-100 border-0">
+            <div class="card-body p-4 d-flex flex-column">
+                <div class="text-center mb-4">
+                    <h5 class="text-muted text-uppercase small fw-bold">Enterprise</h5>
+                    <h2 class="display-5 fw-bold mb-2">$49 <small class="text-muted fs-6">/month</small></h2>
+                    <p class="text-muted mb-0">For large communities and businesses</p>
+                </div>
+                
+                <div class="mb-4">
+                    <ul class="list-unstyled">
+                        <li class="mb-3 d-flex align-items-center">
+                            <div class="me-3 text-success">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <span><b>Unlimited</b> Discord bots</span>
+                        </li>
+                        <li class="mb-3 d-flex align-items-center">
+                            <div class="me-3 text-success">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <span><b>Unlimited</b> servers</span>
+                        </li>
+                        <li class="mb-3 d-flex align-items-center">
+                            <div class="me-3 text-success">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <span>Custom bot development</span>
+                        </li>
+                        <li class="mb-3 d-flex align-items-center">
+                            <div class="me-3 text-success">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <span>Advanced analytics & reporting</span>
+                        </li>
+                        <li class="mb-3 d-flex align-items-center">
+                            <div class="me-3 text-success">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <span>99.9% uptime SLA</span>
+                        </li>
+                        <li class="mb-3 d-flex align-items-center">
+                            <div class="me-3 text-success">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <span>24/7 priority support</span>
+                        </li>
+                        <li class="mb-3 d-flex align-items-center">
+                            <div class="me-3 text-success">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <span>Dedicated account manager</span>
+                        </li>
+                        <li class="mb-3 d-flex align-items-center">
+                            <div class="me-3 text-success">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <span><b>Unlimited</b> custom scripts</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="mt-auto text-center">
+                    <a href="https://discord.gg/WpPWbHUtbt" target="_blank" class="btn btn-outline-secondary w-100 py-2 subscribe-button">
+                        <i class="fas fa-headset me-2"></i> Contact Sales
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Promo Code Section -->
+<div class="card border-0 mb-5 bg-primary/10 animate-fade-in" style="animation-delay: 250ms;">
+    <div class="card-body p-4">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <h2 class="fw-bold fs-4 mb-2">Exclusive Promotion: Use code <span class="text-primary">xt94_</span></h2>
+                <p class="mb-0">Get 20% off your first 3 months on any plan. Upgrade today and unlock premium features!</p>
+            </div>
+            <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                <a href="https://discord.gg/WpPWbHUtbt" target="_blank" class="btn btn-primary px-4 subscribe-button">
+                    <i class="fas fa-tag me-2"></i> Redeem Offer
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Comparison table -->
+<div class="card border-0 mb-5 animate-fade-in" style="animation-delay: 300ms;">
+    <div class="card-header p-4">
+        <h2 class="fw-bold fs-5 mb-0">Plan Comparison</h2>
+    </div>
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <thead class="bg-dark">
+                    <tr>
+                        <th class="px-4 py-3 fw-medium">Feature</th>
+                        <th class="px-4 py-3 fw-medium text-center">Free</th>
+                        <th class="px-4 py-3 fw-medium text-center">Pro</th>
+                        <th class="px-4 py-3 fw-medium text-center">Enterprise</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="px-4 py-3 fw-medium">Discord Bots</td>
+                        <td class="px-4 py-3 text-center">1</td>
+                        <td class="px-4 py-3 text-center">3</td>
+                        <td class="px-4 py-3 text-center">Unlimited</td>
+                    </tr>
+                    <tr>
+                        <td class="px-4 py-3 fw-medium">Servers</td>
+                        <td class="px-4 py-3 text-center">3</td>
+                        <td class="px-4 py-3 text-center">10</td>
+                        <td class="px-4 py-3 text-center">Unlimited</td>
+                    </tr>
+                    <tr>
+                        <td class="px-4 py-3 fw-medium">Custom Scripts</td>
+                        <td class="px-4 py-3 text-center"><i class="fas fa-times text-danger"></i></td>
+                        <td class="px-4 py-3 text-center">1 per bot</td>
+                        <td class="px-4 py-3 text-center">Unlimited</td>
+                    </tr>
+                    <tr>
+                        <td class="px-4 py-3 fw-medium">Bot Commands</td>
+                        <td class="px-4 py-3 text-center">Basic</td>
+                        <td class="px-4 py-3 text-center">Advanced</td>
+                        <td class="px-4 py-3 text-center">Custom</td>
+                    </tr>
+                    <tr>
+                        <td class="px-4 py-3 fw-medium">Analytics</td>
+                        <td class="px-4 py-3 text-center">Basic</td>
+                        <td class="px-4 py-3 text-center">Detailed</td>
+                        <td class="px-4 py-3 text-center">Advanced</td>
+                    </tr>
+                    <tr>
+                        <td class="px-4 py-3 fw-medium">Support</td>
+                        <td class="px-4 py-3 text-center">Community</td>
+                        <td class="px-4 py-3 text-center">Email + Chat</td>
+                        <td class="px-4 py-3 text-center">24/7 Priority</td>
+                    </tr>
+                    <tr>
+                        <td class="px-4 py-3 fw-medium">Uptime Guarantee</td>
+                        <td class="px-4 py-3 text-center">None</td>
+                        <td class="px-4 py-3 text-center">99%</td>
+                        <td class="px-4 py-3 text-center">99.9% SLA</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- FAQ Section -->
+<div class="card border-0 mb-5 animate-fade-in" style="animation-delay: 350ms;">
+    <div class="card-header p-4">
+        <h2 class="fw-bold fs-5 mb-0">Frequently Asked Questions</h2>
+    </div>
+    <div class="card-body p-4">
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item bg-dark border-0 mb-3">
+                <h3 class="accordion-header">
+                    <button class="accordion-button bg-dark text-white" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                        What is XTLive Discord Bot Manager?
+                    </button>
+                </h3>
+                <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        XTLive is a comprehensive platform for managing Discord bots. It allows you to create, configure, and monitor multiple Discord bots across various servers, all from a unified dashboard.
+                    </div>
+                </div>
+            </div>
+            
+            <div class="accordion-item bg-dark border-0 mb-3">
+                <h3 class="accordion-header">
+                    <button class="accordion-button collapsed bg-dark text-white" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                        How do I upgrade my account?
+                    </button>
+                </h3>
+                <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        To upgrade your account, navigate to the Pricing page and select the plan that best fits your needs. You can also contact our sales team for custom enterprise solutions or use the promotional code "xt94_" for a special discount.
+                    </div>
+                </div>
+            </div>
+            
+            <div class="accordion-item bg-dark border-0 mb-3">
+                <h3 class="accordion-header">
+                    <button class="accordion-button collapsed bg-dark text-white" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                        What are custom scripts?
+                    </button>
+                </h3>
+                <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Custom scripts are Python code that you can create and upload to extend your Discord bot's functionality. These scripts allow you to create personalized commands, automate tasks, or integrate with other services. Custom scripts are available on Pro and Enterprise plans.
+                    </div>
+                </div>
+            </div>
+            
+            <div class="accordion-item bg-dark border-0 mb-3">
+                <h3 class="accordion-header">
+                    <button class="accordion-button collapsed bg-dark text-white" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                        Can I cancel my subscription at any time?
+                    </button>
+                </h3>
+                <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Yes, you can cancel your subscription at any time. Your premium benefits will continue until the end of your current billing cycle. After that, your account will revert to the Free plan with its limitations.
+                    </div>
+                </div>
+            </div>
+            
+            <div class="accordion-item bg-dark border-0">
+                <h3 class="accordion-header">
+                    <button class="accordion-button collapsed bg-dark text-white" type="button" data-bs-toggle="collapse" data-bs-target="#faq5">
+                        How secure is my data?
+                    </button>
+                </h3>
+                <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        We take security very seriously. All your data, including Discord tokens, are encrypted and stored securely. We follow industry best practices for data protection and comply with relevant regulations to ensure your information remains safe.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .banner-ribbon {
+        z-index: 1;
+        top: 0;
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,192 @@
+{% extends "base.html" %}
+
+{% block title %}Link Discord Account - LiveCord{% endblock %}
+
+{% block content %}
+<div class="animate-fade-in">
+    <div class="mb-4">
+        <h1 class="display-6 fw-bold mb-2">Link Discord Account</h1>
+        <p class="text-muted">Connect your Discord account for enhanced features and capabilities.</p>
+    </div>
+
+    <div class="row g-4 mb-4">
+        <div class="col-lg-6 animate-fade-in" style="animation-delay: 100ms;">
+            <div class="card glass h-100">
+                <div class="card-header p-4 position-relative overflow-hidden">
+                    <div class="position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(to right, rgba(88, 101, 242, 0.2), transparent); z-index: -1;"></div>
+                    <h3 class="fw-semibold mb-0">Link Your Account</h3>
+                </div>
+                <div class="card-body p-4">
+                    <div class="text-center mb-4">
+                        <div class="bg-primary/10 d-inline-flex p-4 rounded-circle mb-3">
+                            <i class="fab fa-discord fa-3x text-primary"></i>
+                        </div>
+                        <h4 class="fw-semibold mb-3">Connect with Discord</h4>
+                        <p class="text-muted mb-4">Linking your Discord account enables additional features and security options for your bots.</p>
+                    </div>
+                    
+                    <form method="POST" action="{{ url_for('link_discord') }}">
+                        {{ form.hidden_tag() }}
+                        
+                        <div class="mb-3">
+                            <label for="discord_id" class="form-label fw-medium">{{ form.discord_id.label }}</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fab fa-discord"></i></span>
+                                {{ form.discord_id(class="form-control", id="discord_id", placeholder="Enter your Discord User ID") }}
+                            </div>
+                            {% for error in form.discord_id.errors %}
+                            <div class="text-danger small mt-1">{{ error }}</div>
+                            {% endfor %}
+                            <div class="form-text text-muted">
+                                <i class="fas fa-info-circle me-1"></i> Your Discord ID is an 18-digit number
+                            </div>
+                        </div>
+                        
+                        <div class="d-grid mb-4">
+                            {{ form.submit(class="btn btn-primary px-4 py-2") }}
+                        </div>
+                    </form>
+                    
+                    <div class="card bg-dark/30 border-0">
+                        <div class="card-body p-3">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="fw-medium">Connection Status</div>
+                                {% if current_user.discord_id %}
+                                <div class="d-flex align-items-center">
+                                    <div class="status-indicator status-online me-2"></div>
+                                    <span class="fw-medium text-success me-2">Connected</span>
+                                    <span class="badge bg-primary">{{ current_user.discord_id }}</span>
+                                </div>
+                                {% else %}
+                                <div class="d-flex align-items-center">
+                                    <div class="status-indicator status-offline me-2"></div>
+                                    <span class="fw-medium text-muted me-2">Not Connected</span>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6 animate-fade-in" style="animation-delay: 200ms;">
+            <div class="card glass h-100">
+                <div class="card-header p-4 position-relative overflow-hidden">
+                    <div class="position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(to right, rgba(59, 130, 246, 0.2), transparent); z-index: -1;"></div>
+                    <h3 class="fw-semibold mb-0">How It Works</h3>
+                </div>
+                <div class="card-body p-4">
+                    <div class="bg-dark/30 rounded-3 p-4 mb-4 border border-primary/20">
+                        <div class="d-flex">
+                            <div class="flex-shrink-0 bg-primary/10 p-3 rounded-circle me-3">
+                                <i class="fas fa-info-circle text-primary"></i>
+                            </div>
+                            <div>
+                                <h4 class="fw-semibold mb-3">How to Find Your Discord ID</h4>
+                                <ol class="ps-3 mb-0">
+                                    <li class="mb-2">Open Discord and go to User Settings</li>
+                                    <li class="mb-2">Navigate to "Advanced" in the left sidebar</li>
+                                    <li class="mb-2">Enable "Developer Mode" by toggling the switch</li>
+                                    <li class="mb-2">Right-click on your username in any chat and select "Copy ID"</li>
+                                    <li class="mb-0">Paste the ID in the field to the left</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <div class="card bg-dark/30 border-0 hover-elevate">
+                                <div class="card-body p-3">
+                                    <div class="d-flex">
+                                        <div class="bg-success/10 p-2 rounded-circle me-3 flex-shrink-0">
+                                            <i class="fas fa-shield-alt text-success"></i>
+                                        </div>
+                                        <div>
+                                            <h5 class="fw-semibold mb-1">Enhanced Security</h5>
+                                            <p class="mb-0 text-muted small">Linking your Discord account provides an additional layer of security for your tokens and helps prevent unauthorized access.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-12">
+                            <div class="card bg-dark/30 border-0 hover-elevate">
+                                <div class="card-body p-3">
+                                    <div class="d-flex">
+                                        <div class="bg-info/10 p-2 rounded-circle me-3 flex-shrink-0">
+                                            <i class="fas fa-bell text-info"></i>
+                                        </div>
+                                        <div>
+                                            <h5 class="fw-semibold mb-1">Real-time Notifications</h5>
+                                            <p class="mb-0 text-muted small">Receive real-time status updates and important notifications about your bots directly through your Discord account.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-12">
+                            <div class="card bg-dark/30 border-0 hover-elevate">
+                                <div class="card-body p-3">
+                                    <div class="d-flex">
+                                        <div class="bg-primary/10 p-2 rounded-circle me-3 flex-shrink-0">
+                                            <i class="fas fa-bolt text-primary"></i>
+                                        </div>
+                                        <div>
+                                            <h5 class="fw-semibold mb-1">Advanced Features</h5>
+                                            <p class="mb-0 text-muted small">Unlock premium selfbot features like advanced commands, automated responses, and enhanced monitoring capabilities.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card glass animate-fade-in" style="animation-delay: 300ms;">
+        <div class="card-header p-4 position-relative overflow-hidden">
+            <div class="position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(to right, rgba(139, 92, 246, 0.2), transparent); z-index: -1;"></div>
+            <h3 class="fw-semibold mb-0">Discord Integration Benefits</h3>
+        </div>
+        <div class="card-body p-4">
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="text-center">
+                        <div class="bg-purple/10 d-inline-flex p-3 rounded-circle mb-3">
+                            <i class="fas fa-cogs fa-2x text-purple"></i>
+                        </div>
+                        <h4 class="fs-5 fw-semibold mb-2">Seamless Integration</h4>
+                        <p class="text-muted small mb-0">Connect your Discord account once and enjoy seamless integration with all your bots and tokens.</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="text-center">
+                        <div class="bg-primary/10 d-inline-flex p-3 rounded-circle mb-3">
+                            <i class="fas fa-tachometer-alt fa-2x text-primary"></i>
+                        </div>
+                        <h4 class="fs-5 fw-semibold mb-2">Performance Monitoring</h4>
+                        <p class="text-muted small mb-0">Monitor your bot's performance, uptime, and resource usage through detailed dashboards.</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="text-center">
+                        <div class="bg-success/10 d-inline-flex p-3 rounded-circle mb-3">
+                            <i class="fas fa-clipboard-check fa-2x text-success"></i>
+                        </div>
+                        <h4 class="fs-5 fw-semibold mb-2">Verified Status</h4>
+                        <p class="text-muted small mb-0">Get a verified badge on your account and access to premium support and features.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

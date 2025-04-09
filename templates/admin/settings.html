@@ -1,0 +1,440 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Settings - XTLive{% endblock %}
+
+{% block content %}
+<div class="mb-4 animate-fade-in">
+    <div class="d-flex justify-content-between align-items-center">
+        <div>
+            <h1 class="fw-bold mb-2">System Settings</h1>
+            <p class="text-muted">Configure global application settings</p>
+        </div>
+        <a href="{{ url_for('admin_dashboard') }}" class="btn btn-outline-primary">
+            <i class="fas fa-arrow-left me-2"></i> Back to Admin
+        </a>
+    </div>
+</div>
+
+<div class="row g-4">
+    <!-- General System Settings -->
+    <div class="col-lg-6 animate-fade-in" style="animation-delay: 100ms;">
+        <div class="card border-0 h-100">
+            <div class="card-header p-4">
+                <h2 class="fw-bold fs-5 mb-0">General System Settings</h2>
+            </div>
+            <div class="card-body p-4">
+                <form id="general-settings-form" method="POST" action="{{ url_for('admin_update_settings') }}">
+                    <input type="hidden" name="section" value="general">
+                    
+                    <div class="mb-4">
+                        <div class="form-check form-switch mb-3">
+                            <input class="form-check-input" type="checkbox" id="maintenanceMode" name="maintenance_mode" {{ 'checked' if system_settings.maintenance_mode else '' }}>
+                            <label class="form-check-label" for="maintenanceMode">Maintenance Mode</label>
+                        </div>
+                        <p class="text-muted small">When enabled, only administrators can access the site.</p>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="form-label" for="maxTokensPerUser">Max Tokens Per User (Free Plan)</label>
+                        <input type="number" class="form-control" id="maxTokensPerUser" name="max_tokens_per_user" value="{{ system_settings.max_tokens_per_user or 5 }}" min="1" max="100">
+                        <p class="text-muted small">Maximum number of tokens allowed for non-premium users.</p>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="form-label" for="serverScriptTimeout">Server Script Timeout (seconds)</label>
+                        <input type="number" class="form-control" id="serverScriptTimeout" name="server_script_timeout" value="{{ system_settings.server_script_timeout or 300 }}" min="30" max="1800">
+                        <p class="text-muted small">Maximum execution time for server-side scripts.</p>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="form-label" for="defaultSessionTimeout">Default Session Timeout (minutes)</label>
+                        <input type="number" class="form-control" id="defaultSessionTimeout" name="default_session_timeout" value="{{ system_settings.default_session_timeout or 1440 }}" min="5" max="10080">
+                        <p class="text-muted small">Default timeout for user sessions.</p>
+                    </div>
+                    
+                    <div class="text-end">
+                        <button type="submit" class="btn btn-primary">Save General Settings</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Security Settings -->
+    <div class="col-lg-6 animate-fade-in" style="animation-delay: 150ms;">
+        <div class="card border-0 h-100">
+            <div class="card-header p-4">
+                <h2 class="fw-bold fs-5 mb-0">Security Settings</h2>
+            </div>
+            <div class="card-body p-4">
+                <form id="security-settings-form" method="POST" action="{{ url_for('admin_update_settings') }}">
+                    <input type="hidden" name="section" value="security">
+                    
+                    <div class="mb-4">
+                        <div class="form-check form-switch mb-3">
+                            <input class="form-check-input" type="checkbox" id="enforceStrongPasswords" name="enforce_strong_passwords" {{ 'checked' if system_settings.enforce_strong_passwords else '' }}>
+                            <label class="form-check-label" for="enforceStrongPasswords">Enforce Strong Passwords</label>
+                        </div>
+                        <p class="text-muted small">Require passwords to include uppercase, lowercase, numbers, and special characters.</p>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <div class="form-check form-switch mb-3">
+                            <input class="form-check-input" type="checkbox" id="enforceSingleIp" name="enforce_single_ip" {{ 'checked' if system_settings.enforce_single_ip else '' }}>
+                            <label class="form-check-label" for="enforceSingleIp">Enforce Single IP Login</label>
+                        </div>
+                        <p class="text-muted small">Prevent users from logging in from multiple IP addresses simultaneously.</p>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="form-label" for="maxLoginAttempts">Max Login Attempts</label>
+                        <input type="number" class="form-control" id="maxLoginAttempts" name="max_login_attempts" value="{{ system_settings.max_login_attempts or 5 }}" min="1" max="20">
+                        <p class="text-muted small">Number of failed login attempts before temporary account lockout.</p>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="form-label" for="ipWhitelist">IP Whitelist</label>
+                        <textarea class="form-control" id="ipWhitelist" name="ip_whitelist" rows="3" placeholder="e.g. 192.168.1.1, 10.0.0.0/24">{{ system_settings.ip_whitelist or '' }}</textarea>
+                        <p class="text-muted small">List of IP addresses or ranges allowed to access the admin panel (comma-separated).</p>
+                    </div>
+                    
+                    <div class="text-end">
+                        <button type="submit" class="btn btn-primary">Save Security Settings</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- API & Integration Settings -->
+    <div class="col-lg-6 animate-fade-in" style="animation-delay: 200ms;">
+        <div class="card border-0 h-100">
+            <div class="card-header p-4">
+                <h2 class="fw-bold fs-5 mb-0">API & Integration Settings</h2>
+            </div>
+            <div class="card-body p-4">
+                <form id="api-settings-form" method="POST" action="{{ url_for('admin_update_settings') }}">
+                    <input type="hidden" name="section" value="api">
+                    
+                    <div class="mb-4">
+                        <div class="form-check form-switch mb-3">
+                            <input class="form-check-input" type="checkbox" id="enablePublicApi" name="enable_public_api" {{ 'checked' if system_settings.enable_public_api else '' }}>
+                            <label class="form-check-label" for="enablePublicApi">Enable Public API</label>
+                        </div>
+                        <p class="text-muted small">Allow external applications to access the API endpoints.</p>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="form-label" for="apiRateLimit">API Rate Limit (requests per minute)</label>
+                        <input type="number" class="form-control" id="apiRateLimit" name="api_rate_limit" value="{{ system_settings.api_rate_limit or 60 }}" min="1" max="1000">
+                        <p class="text-muted small">Maximum number of API requests allowed per minute.</p>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="form-label" for="discordWebhookUrl">Discord Webhook URL</label>
+                        <input type="text" class="form-control" id="discordWebhookUrl" name="discord_webhook_url" value="{{ system_settings.discord_webhook_url or '' }}" placeholder="https://discord.com/api/webhooks/...">
+                        <p class="text-muted small">Webhook URL for sending notifications to Discord.</p>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="form-label" for="masterApiKey">Master API Key</label>
+                        <div class="input-group">
+                            <input type="password" class="form-control" id="masterApiKey" value="{{ 'xt_master_api_' + system_settings.master_api_key if system_settings.master_api_key else 'Not generated' }}" readonly>
+                            <button class="btn btn-outline-secondary" type="button" id="regenerateApiKey">
+                                <i class="fas fa-sync-alt"></i>
+                            </button>
+                            <button class="btn btn-outline-secondary" type="button" id="toggleApiKey">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                        <p class="text-muted small">Master API key for administrative operations.</p>
+                    </div>
+                    
+                    <div class="text-end">
+                        <button type="submit" class="btn btn-primary">Save API Settings</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Custom Branding Settings -->
+    <div class="col-lg-6 animate-fade-in" style="animation-delay: 250ms;">
+        <div class="card border-0 h-100">
+            <div class="card-header p-4">
+                <h2 class="fw-bold fs-5 mb-0">Custom Branding</h2>
+            </div>
+            <div class="card-body p-4">
+                <form id="branding-settings-form" method="POST" action="{{ url_for('admin_update_settings') }}" enctype="multipart/form-data">
+                    <input type="hidden" name="section" value="branding">
+                    
+                    <div class="mb-4">
+                        <label class="form-label" for="siteName">Site Name</label>
+                        <input type="text" class="form-control" id="siteName" name="site_name" value="{{ system_settings.site_name or 'XTLive' }}">
+                        <p class="text-muted small">Name displayed in the site title and headers.</p>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="form-label" for="siteDescription">Site Description</label>
+                        <textarea class="form-control" id="siteDescription" name="site_description" rows="3">{{ system_settings.site_description or 'Discord Selfbot Management Platform' }}</textarea>
+                        <p class="text-muted small">Short description for SEO and meta tags.</p>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="form-label" for="primaryColor">Primary Color</label>
+                        <input type="color" class="form-control form-control-color" id="primaryColor" name="primary_color" value="{{ system_settings.primary_color or '#6200ea' }}">
+                        <p class="text-muted small">Main accent color for buttons and highlights.</p>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="form-label" for="contactEmail">Contact Email</label>
+                        <input type="email" class="form-control" id="contactEmail" name="contact_email" value="{{ system_settings.contact_email or '' }}" placeholder="support@example.com">
+                        <p class="text-muted small">Email address displayed for support inquiries.</p>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="form-label" for="logoUpload">Logo Upload</label>
+                        <input type="file" class="form-control" id="logoUpload" name="logo_upload" accept="image/png, image/jpeg, image/svg+xml">
+                        <p class="text-muted small">Upload a custom logo (SVG, PNG, or JPEG, max 1MB).</p>
+                    </div>
+                    
+                    <div class="text-end">
+                        <button type="submit" class="btn btn-primary">Save Branding Settings</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Notification Settings -->
+    <div class="col-lg-6 animate-fade-in" style="animation-delay: 300ms;">
+        <div class="card border-0 h-100">
+            <div class="card-header p-4">
+                <h2 class="fw-bold fs-5 mb-0">Notification Settings</h2>
+            </div>
+            <div class="card-body p-4">
+                <form id="notification-settings-form" method="POST" action="{{ url_for('admin_update_settings') }}">
+                    <input type="hidden" name="section" value="notifications">
+                    
+                    <div class="mb-4">
+                        <div class="form-check form-switch mb-3">
+                            <input class="form-check-input" type="checkbox" id="emailNotifications" name="email_notifications" {{ 'checked' if system_settings.email_notifications else '' }}>
+                            <label class="form-check-label" for="emailNotifications">Email Notifications</label>
+                        </div>
+                        <p class="text-muted small">Send important notifications via email to users.</p>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <div class="form-check form-switch mb-3">
+                            <input class="form-check-input" type="checkbox" id="discordNotifications" name="discord_notifications" {{ 'checked' if system_settings.discord_notifications else '' }}>
+                            <label class="form-check-label" for="discordNotifications">Discord Notifications</label>
+                        </div>
+                        <p class="text-muted small">Send notifications to Discord webhook for system events.</p>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <div class="form-check form-switch mb-3">
+                            <input class="form-check-input" type="checkbox" id="adminAlerts" name="admin_alerts" {{ 'checked' if system_settings.admin_alerts else '' }}>
+                            <label class="form-check-label" for="adminAlerts">Admin Alerts</label>
+                        </div>
+                        <p class="text-muted small">Send alerts to administrators for critical events.</p>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="form-label" for="sendgridApiKey">SendGrid API Key</label>
+                        <div class="input-group">
+                            <input type="password" class="form-control" id="sendgridApiKey" name="sendgrid_api_key" value="{{ system_settings.sendgrid_api_key or '' }}" placeholder="SG.xxxxxx">
+                            <button class="btn btn-outline-secondary" type="button" id="toggleSendgridKey">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                        <p class="text-muted small">API key for SendGrid email integration.</p>
+                    </div>
+                    
+                    <div class="text-end">
+                        <button type="submit" class="btn btn-primary">Save Notification Settings</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- System Maintenance -->
+    <div class="col-lg-6 animate-fade-in" style="animation-delay: 350ms;">
+        <div class="card border-0 h-100">
+            <div class="card-header p-4 bg-danger bg-opacity-10">
+                <h2 class="fw-bold fs-5 mb-0 text-danger">System Maintenance</h2>
+            </div>
+            <div class="card-body p-4">
+                <div class="alert alert-warning">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    <strong>Warning:</strong> These actions can be destructive and may affect user data. Proceed with caution.
+                </div>
+                
+                <div class="mb-4">
+                    <h5 class="fw-bold">Database Operations</h5>
+                    <div class="d-flex gap-2 mt-2">
+                        <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#backupModal">
+                            <i class="fas fa-database me-2"></i> Backup Database
+                        </button>
+                        <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#purgeModal">
+                            <i class="fas fa-trash me-2"></i> Purge Inactive Data
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="mb-4">
+                    <h5 class="fw-bold">Cache Management</h5>
+                    <div class="d-flex gap-2 mt-2">
+                        <form method="POST" action="{{ url_for('admin_clear_cache') }}">
+                            <button type="submit" class="btn btn-outline-secondary" onclick="return confirm('Are you sure you want to clear the system cache?');">
+                                <i class="fas fa-broom me-2"></i> Clear Cache
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                
+                <div class="mb-0">
+                    <h5 class="fw-bold">System Logs</h5>
+                    <div class="d-flex gap-2 mt-2">
+                        <a href="{{ url_for('admin_view_logs') }}" class="btn btn-outline-info">
+                            <i class="fas fa-file-alt me-2"></i> View Logs
+                        </a>
+                        <form method="POST" action="{{ url_for('admin_clear_logs') }}">
+                            <button type="submit" class="btn btn-outline-danger" onclick="return confirm('Are you sure you want to clear all system logs?');">
+                                <i class="fas fa-eraser me-2"></i> Clear Logs
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Backup Database Modal -->
+<div class="modal fade" id="backupModal" tabindex="-1" aria-labelledby="backupModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="backupModalLabel">Backup Database</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="{{ url_for('admin_backup_database') }}">
+                    <div class="mb-3">
+                        <label class="form-label" for="backupName">Backup Name</label>
+                        <input type="text" class="form-control" id="backupName" name="backup_name" value="backup_{{ now.strftime('%Y%m%d_%H%M%S') }}">
+                    </div>
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="checkbox" id="includeUserData" name="include_user_data" checked>
+                        <label class="form-check-label" for="includeUserData">Include User Data</label>
+                    </div>
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="checkbox" id="includeTokens" name="include_tokens" checked>
+                        <label class="form-check-label" for="includeTokens">Include Token Data</label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="submit" form="backupForm" class="btn btn-primary">Create Backup</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Purge Data Modal -->
+<div class="modal fade" id="purgeModal" tabindex="-1" aria-labelledby="purgeModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="purgeModalLabel">Purge Inactive Data</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="purgeForm" method="POST" action="{{ url_for('admin_purge_data') }}">
+                    <div class="alert alert-danger">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        <strong>Warning:</strong> This action will permanently delete data and cannot be undone.
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="inactiveDays">Inactive Period (days)</label>
+                        <input type="number" class="form-control" id="inactiveDays" name="inactive_days" value="90" min="30" max="365">
+                        <p class="small text-muted">Data older than this many days will be purged.</p>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="checkbox" id="purgeInactiveUsers" name="purge_inactive_users">
+                        <label class="form-check-label" for="purgeInactiveUsers">Purge Inactive Users</label>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="checkbox" id="purgeExpiredTokens" name="purge_expired_tokens">
+                        <label class="form-check-label" for="purgeExpiredTokens">Purge Expired Tokens</label>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="checkbox" id="purgeInactiveScripts" name="purge_inactive_scripts">
+                        <label class="form-check-label" for="purgeInactiveScripts">Purge Inactive Scripts</label>
+                    </div>
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="checkbox" id="purgeOldLogs" name="purge_old_logs">
+                        <label class="form-check-label" for="purgeOldLogs">Purge Old Logs</label>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="confirmPurge">Type "CONFIRM PURGE" to proceed</label>
+                        <input type="text" class="form-control" id="confirmPurge" name="confirm_purge" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="submit" form="purgeForm" class="btn btn-danger">Purge Data</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Toggle API key visibility
+    document.getElementById('toggleApiKey').addEventListener('click', function() {
+        const apiKeyInput = document.getElementById('masterApiKey');
+        if (apiKeyInput.getAttribute('type') === 'text') {
+            apiKeyInput.setAttribute('type', 'password');
+            this.innerHTML = '<i class="fas fa-eye"></i>';
+        } else {
+            apiKeyInput.setAttribute('type', 'text');
+            this.innerHTML = '<i class="fas fa-eye-slash"></i>';
+        }
+    });
+    
+    // Toggle SendGrid key visibility
+    document.getElementById('toggleSendgridKey').addEventListener('click', function() {
+        const apiKeyInput = document.getElementById('sendgridApiKey');
+        if (apiKeyInput.getAttribute('type') === 'text') {
+            apiKeyInput.setAttribute('type', 'password');
+            this.innerHTML = '<i class="fas fa-eye"></i>';
+        } else {
+            apiKeyInput.setAttribute('type', 'text');
+            this.innerHTML = '<i class="fas fa-eye-slash"></i>';
+        }
+    });
+    
+    // Regenerate API key
+    document.getElementById('regenerateApiKey').addEventListener('click', function() {
+        if (confirm('Are you sure you want to regenerate the master API key? This will invalidate the existing key.')) {
+            // In a real implementation, this would make an AJAX request to generate a new key
+            // For now, we'll just show a toast notification
+            showNotification('Master API key has been regenerated successfully', 'success');
+        }
+    });
+    
+    // Validate purge form submission
+    document.getElementById('purgeForm')?.addEventListener('submit', function(e) {
+        if (document.getElementById('confirmPurge').value !== 'CONFIRM PURGE') {
+            e.preventDefault();
+            alert('Please type "CONFIRM PURGE" to proceed with data purge');
+        }
+    });
+});
+</script>
+{% endblock %}

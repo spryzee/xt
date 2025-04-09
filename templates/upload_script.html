@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% block title %}Upload Script - XTLive{% endblock %}
+
+{% block content %}
+<div class="mb-4 animate-fade-in">
+    <div class="d-flex justify-content-between align-items-center">
+        <div>
+            <h1 class="fw-bold mb-2">Upload Script</h1>
+            <p class="text-muted">Upload a custom Python script for your Discord bot</p>
+        </div>
+        <div>
+            <a href="{{ url_for('script_management') }}" class="btn btn-outline-secondary">
+                <i class="fas fa-arrow-left me-2"></i> Back to Scripts
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-5">
+    <div class="col-lg-8 mx-auto">
+        <div class="card border-0">
+            <div class="card-body p-4">
+                <form method="POST" enctype="multipart/form-data">
+                    {{ form.hidden_tag() }}
+                    
+                    <div class="mb-4">
+                        <label for="name" class="form-label">Script Name</label>
+                        {{ form.name(class="form-control", id="name", placeholder="Enter a name for your script") }}
+                        {% for error in form.name.errors %}
+                        <div class="text-danger mt-1">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label for="description" class="form-label">Description (Optional)</label>
+                        {{ form.description(class="form-control", id="description", placeholder="Enter a brief description") }}
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label for="script_file" class="form-label">Python Script File</label>
+                        <div class="input-group">
+                            {{ form.script_file(class="form-control", id="script_file", accept=".py") }}
+                        </div>
+                        {% for error in form.script_file.errors %}
+                        <div class="text-danger mt-1">{{ error }}</div>
+                        {% endfor %}
+                        <div class="text-muted small mt-1">
+                            <i class="fas fa-info-circle me-1"></i> Upload a Python (.py) file. File must contain a <code>run_script(client)</code> function.
+                        </div>
+                    </div>
+
+                    <div class="card bg-dark/20 border border-info/20 mb-4">
+                        <div class="card-body p-3">
+                            <div class="d-flex">
+                                <div class="text-info me-3">
+                                    <i class="fas fa-info-circle"></i>
+                                </div>
+                                <div>
+                                    <h5 class="fw-bold">Script Requirements</h5>
+                                    <ul class="mb-0 ps-3">
+                                        <li>File must be a valid Python (.py) script</li>
+                                        <li>Script must contain a <code>run_script(client)</code> function</li>
+                                        <li>The <code>client</code> parameter is a Discord client instance</li>
+                                        <li>Maximum file size: 500KB</li>
+                                        <li>Only standard Python libraries are supported</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-end">
+                        <a href="{{ url_for('script_management') }}" class="btn btn-outline-secondary me-2">
+                            Cancel
+                        </a>
+                        {{ form.submit(class="btn btn-primary px-4") }}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card border-0 mb-5 animate-fade-in" style="animation-delay: 150ms;">
+    <div class="card-header p-4">
+        <h2 class="fw-bold fs-5 mb-0">Example Script</h2>
+    </div>
+    <div class="card-body p-4">
+        <pre class="bg-dark p-3 rounded"><code>def run_script(client):
+    """Your custom script to handle Discord events."""
+    
+    @client.event
+    async def on_message(message):
+        if message.author == client.user:
+            return
+        
+        if message.content.startswith('!hello'):
+            await message.channel.send('Hello from my custom script!')
+        
+        elif message.content.startswith('!ping'):
+            await message.channel.send('Pong! Bot is working.')
+</code></pre>
+    </div>
+</div>
+{% endblock %}

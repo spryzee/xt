@@ -1,0 +1,322 @@
+/* Custom styles for LiveCord */
+
+/* CSS Variables */
+:root {
+    --primary: #5865F2;
+    --primary-hover: #4752C4;
+    --success: #10b981;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+    --info: #0ea5e9;
+    --purple: #8b5cf6;
+    --dark-bg: #0f172a;
+    --card-bg: rgba(30, 41, 59, 0.4);
+    --border-color: rgba(255, 255, 255, 0.1);
+    --transition-duration: 0.3s;
+}
+
+/* Typography */
+.text-xs {
+    font-size: 0.75rem;
+}
+
+.text-sm {
+    font-size: 0.875rem;
+}
+
+.text-lg {
+    font-size: 1.125rem;
+}
+
+.text-xl {
+    font-size: 1.25rem;
+}
+
+.text-2xl {
+    font-size: 1.5rem;
+}
+
+.font-medium {
+    font-weight: 500;
+}
+
+.font-semibold {
+    font-weight: 600;
+}
+
+.tracking-tight {
+    letter-spacing: -0.025em;
+}
+
+/* Additional spacing for content areas */
+.container {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+/* Spacing Utilities */
+.space-y-1 > * + * {
+    margin-top: 0.25rem;
+}
+
+.space-y-2 > * + * {
+    margin-top: 0.5rem;
+}
+
+.space-y-4 > * + * {
+    margin-top: 1rem;
+}
+
+.space-y-6 > * + * {
+    margin-top: 1.5rem;
+}
+
+.space-x-2 > * + * {
+    margin-left: 0.5rem;
+}
+
+/* Flexbox and Grid */
+.flex {
+    display: flex;
+}
+
+.items-center {
+    align-items: center;
+}
+
+.items-start {
+    align-items: flex-start;
+}
+
+.justify-between {
+    justify-content: space-between;
+}
+
+.grid {
+    display: grid;
+}
+
+.grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.grid-cols-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.grid-cols-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.gap-4 {
+    gap: 1rem;
+}
+
+.gap-6 {
+    gap: 1.5rem;
+}
+
+/* Background opacity classes */
+.bg-primary\/10 {
+    background-color: rgba(88, 101, 242, 0.1);
+}
+
+.bg-success\/10 {
+    background-color: rgba(16, 185, 129, 0.1);
+}
+
+.bg-warning\/10 {
+    background-color: rgba(245, 158, 11, 0.1);
+}
+
+.bg-danger\/10 {
+    background-color: rgba(239, 68, 68, 0.1);
+}
+
+.bg-info\/10 {
+    background-color: rgba(14, 165, 233, 0.1);
+}
+
+.bg-purple\/10 {
+    background-color: rgba(139, 92, 246, 0.1);
+}
+
+.bg-dark\/30 {
+    background-color: rgba(15, 23, 42, 0.3);
+}
+
+.bg-slate-800\/50 {
+    background-color: rgba(30, 41, 59, 0.5);
+}
+
+/* Border opacity */
+.border-primary\/20 {
+    border-color: rgba(88, 101, 242, 0.2);
+}
+
+.border-info\/20 {
+    border-color: rgba(14, 165, 233, 0.2);
+}
+
+.border-warning\/20 {
+    border-color: rgba(245, 158, 11, 0.2);
+}
+
+/* Enhanced Card Components */
+.card {
+    border-radius: 0.75rem;
+    margin-bottom: 1.5rem;
+    transition: transform var(--transition-duration), box-shadow var(--transition-duration);
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+}
+
+.card-hover:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.2);
+}
+
+.hover-elevate {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-elevate:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Glass Effect */
+.glass {
+    backdrop-filter: blur(12px);
+    background: rgba(30, 41, 59, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Status indicators */
+.status-indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #6c757d;
+}
+
+.status-online {
+    background-color: var(--success);
+}
+
+.status-offline {
+    background-color: var(--danger);
+}
+
+.status-idle {
+    background-color: var(--warning);
+}
+
+/* Animation */
+.animate-fade-in {
+    animation: fadeIn var(--transition-duration) ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Enhanced Form Components */
+.form-control, .form-select {
+    background-color: rgba(30, 41, 59, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all var(--transition-duration);
+}
+
+.form-control:focus, .form-select:focus {
+    background-color: rgba(30, 41, 59, 0.6);
+    border-color: rgba(88, 101, 242, 0.4);
+    box-shadow: 0 0 0 0.25rem rgba(88, 101, 242, 0.25);
+}
+
+/* Nav item hover effect */
+.navbar-nav .nav-link {
+    position: relative;
+    transition: color var(--transition-duration);
+}
+
+.navbar-nav .nav-link:after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: var(--primary);
+    transition: width var(--transition-duration);
+}
+
+.navbar-nav .nav-link:hover:after {
+    width: 100%;
+}
+
+/* Button enhancements */
+.btn {
+    border-radius: 0.375rem;
+    transition: all var(--transition-duration);
+}
+
+.btn-ghost-secondary {
+    color: #adb5bd;
+    background-color: transparent;
+    border-color: transparent;
+}
+
+.btn-ghost-secondary:hover {
+    color: #fff;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Discord button */
+.btn-discord {
+    background-color: #5865F2;
+    color: white;
+}
+
+.btn-discord:hover {
+    background-color: #4752C4;
+    color: white;
+}
+
+/* Token display in tables */
+.token-display {
+    font-family: monospace;
+    background-color: rgba(15, 23, 42, 0.5);
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+}
+
+/* Footer styles */
+footer {
+    margin-top: 3rem;
+    padding: 2rem 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Text Colors */
+.text-purple {
+    color: var(--purple);
+}
+
+/* Responsive utilities */
+@media (min-width: 768px) {
+    .md\:grid-cols-2 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    
+    .md\:grid-cols-3 {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (min-width: 992px) {
+    .lg\:grid-cols-4 {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+}

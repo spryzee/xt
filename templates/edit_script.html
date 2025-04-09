@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+
+{% block title %}
+{% if script is defined %}Edit Script{% else %}New Script{% endif %} - XTLive
+{% endblock %}
+
+{% block styles %}
+{{ super() }}
+<style>
+    .CodeMirror {
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 0.25rem;
+        height: 400px;
+    }
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/theme/material-darker.min.css">
+{% endblock %}
+
+{% block content %}
+<div class="mb-4 animate-fade-in">
+    <div class="d-flex justify-content-between align-items-center">
+        <div>
+            <h1 class="fw-bold mb-2">{% if script is defined %}Edit Script{% else %}New Script{% endif %}</h1>
+            <p class="text-muted">{% if script is defined %}Update your custom script{% else %}Create a new custom script{% endif %}</p>
+        </div>
+        <div>
+            <a href="{{ url_for('script_management') }}" class="btn btn-outline-secondary">
+                <i class="fas fa-arrow-left me-2"></i> Back to Scripts
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-5">
+    <div class="col-lg-12">
+        <div class="card border-0">
+            <div class="card-body p-4">
+                <form method="POST" id="script-form" enctype="multipart/form-data">
+                    {{ form.hidden_tag() }}
+                    
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Script Name</label>
+                                {{ form.name(class="form-control", id="name", placeholder="Enter a name for your script") }}
+                                {% for error in form.name.errors %}
+                                <div class="text-danger mt-1">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="description" class="form-label">Description (Optional)</label>
+                                {{ form.description(class="form-control", id="description", placeholder="Enter a brief description") }}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label for="editor" class="form-label">Script Content</label>
+                        <div class="mb-2">
+                            {{ form.content(id="script-content", style="display: none;") }}
+                            <div id="editor"></div>
+                        </div>
+                        {% for error in form.content.errors %}
+                        <div class="text-danger">{{ error }}</div>
+                        {% endfor %}
+                        <div class="text-muted small">
+                            <i class="fas fa-info-circle me-1"></i> Your script must include a <code>run_script(client)</code> function.
+                        </div>
+                    </div>
+
+                    <div class="card bg-dark/20 border border-info/20 mb-4">
+                        <div class="card-body p-3">
+                            <div class="d-flex">
+                                <div class="text-info me-3">
+                                    <i class="fas fa-info-circle"></i>
+                                </div>
+                                <div>
+                                    <h5 class="fw-bold">Script Template</h5>
+                                    <p class="mb-2">Your script must contain a <code>run_script(client)</code> function that will be called by the main bot script. For example:</p>
+                                    <pre class="bg-dark p-3 rounded"><code>def run_script(client):
+    """Your custom script to handle Discord events."""
+    
+    @client.event
+    async def on_message(message):
+        if message.author == client.user:
+            return
+        
+        if message.content.startswith('!hello'):
+            await message.channel.send('Hello there!')</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-end">
+                        <a href="{{ url_for('script_management') }}" class="btn btn-outline-secondary me-2">
+                            Cancel
+                        </a>
+                        {{ form.submit(class="btn btn-primary px-4", value="Save Script") }}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/mode/python/python.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize CodeMirror
+        var editor = CodeMirror(document.getElementById('editor'), {
+            mode: 'python',
+            theme: 'material-darker',
+            lineNumbers: true,
+            indentUnit: 4,
+            indentWithTabs: false,
+            lineWrapping: true,
+            matchBrackets: true,
+            autoCloseBrackets: true,
+            extraKeys: {"Tab": "indentMore", "Shift-Tab": "indentLess"}
+        });
+
+        // Set initial value from textarea if editing
+        editor.setValue(document.getElementById('script-content').value || 
+            'def run_script(client):\n    """Your custom script to handle Discord events."""\n    \n    @client.event\n    async def on_message(message):\n        if message.author == client.user:\n            return\n        \n        if message.content.startswith(\'!hello\'):\n            await message.channel.send(\'Hello there!\')\n');
+        
+        // Update hidden textarea on form submit
+        document.getElementById('script-form').addEventListener('submit', function() {
+            document.getElementById('script-content').value = editor.getValue();
+        });
+    });
+</script>
+{% endblock %}

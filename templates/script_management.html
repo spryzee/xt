@@ -1,0 +1,178 @@
+{% extends "base.html" %}
+
+{% block title %}Manage Scripts - XTLive{% endblock %}
+
+{% block content %}
+<div class="mb-4 animate-fade-in">
+    <div class="d-flex justify-content-between align-items-center">
+        <div>
+            <h1 class="fw-bold mb-2">Custom Scripts</h1>
+            <p class="text-muted">Create, upload and manage custom scripts for your Discord bots</p>
+        </div>
+        <div class="d-flex gap-2">
+            <a href="{{ url_for('new_script') }}" class="btn btn-primary">
+                <i class="fas fa-plus me-2"></i> New Script
+            </a>
+            <a href="{{ url_for('upload_script') }}" class="btn btn-outline-primary">
+                <i class="fas fa-upload me-2"></i> Upload Script
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Premium Info -->
+<div class="card border-0 mb-4 animate-fade-in" style="animation-delay: 100ms;">
+    <div class="card-body p-4">
+        <div class="d-flex">
+            <div class="me-3 text-primary">
+                <i class="fas fa-gem fa-2x"></i>
+            </div>
+            <div>
+                <h2 class="fw-bold fs-5 mb-2">Premium Feature</h2>
+                <p class="mb-0">Custom scripts allow you to extend your Discord bots with your own Python code. Add functionality, automate tasks, or integrate with other services.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Script List -->
+<div class="card border-0 mb-5 animate-fade-in" style="animation-delay: 150ms;">
+    <div class="card-header p-4 d-flex justify-content-between align-items-center">
+        <h2 class="fw-bold fs-5 mb-0">Your Scripts</h2>
+        <div class="d-flex">
+            <input type="text" class="form-control me-2" placeholder="Search scripts...">
+            <button class="btn btn-outline-primary">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+    </div>
+    
+    <div class="card-body p-0">
+        {% if scripts|length > 0 %}
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <thead class="bg-dark">
+                    <tr>
+                        <th class="fw-semibold px-4 py-3">Name</th>
+                        <th class="fw-semibold px-4 py-3">Description</th>
+                        <th class="fw-semibold px-4 py-3">Status</th>
+                        <th class="fw-semibold px-4 py-3">Last Updated</th>
+                        <th class="fw-semibold px-4 py-3 text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for script in scripts %}
+                    <tr>
+                        <td class="px-4 py-3">
+                            <div class="d-flex align-items-center">
+                                <div class="bg-dark rounded text-center me-3" style="width: 40px; height: 40px; line-height: 40px;">
+                                    <i class="fas fa-code"></i>
+                                </div>
+                                <div>
+                                    <div class="fw-medium">{{ script.name }}</div>
+                                    <div class="text-muted small">ID: {{ script.id }}</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-4 py-3">
+                            <div class="text-truncate" style="max-width: 200px;">{{ script.description or 'No description' }}</div>
+                        </td>
+                        <td class="px-4 py-3">
+                            {% if script.is_active %}
+                            <div class="d-flex align-items-center">
+                                <div class="status-indicator status-online me-2"></div>
+                                <span class="text-success">Active</span>
+                            </div>
+                            {% else %}
+                            <div class="d-flex align-items-center">
+                                <div class="status-indicator status-offline me-2"></div>
+                                <span class="text-muted">Inactive</span>
+                            </div>
+                            {% endif %}
+                        </td>
+                        <td class="px-4 py-3">
+                            <div>{{ script.updated_at.strftime('%Y-%m-%d') }}</div>
+                            <div class="text-muted small">{{ script.updated_at.strftime('%H:%M:%S') }}</div>
+                        </td>
+                        <td class="px-4 py-3 text-end">
+                            <div class="d-flex gap-2 justify-content-end">
+                                <a href="{{ url_for('edit_script', script_id=script.id) }}" class="btn btn-sm btn-outline-primary">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <form method="POST" action="{{ url_for('toggle_script', script_id=script.id) }}">
+                                    <button type="submit" class="btn btn-sm btn-{% if script.is_active %}warning{% else %}success{% endif %}">
+                                        {% if script.is_active %}
+                                        <i class="fas fa-pause"></i>
+                                        {% else %}
+                                        <i class="fas fa-play"></i>
+                                        {% endif %}
+                                    </button>
+                                </form>
+                                <form method="POST" action="{{ url_for('delete_script', script_id=script.id) }}" onsubmit="return confirm('Are you sure you want to delete this script?');">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="p-5 text-center">
+            <div class="bg-primary/10 d-inline-flex p-4 rounded-circle mb-3">
+                <i class="fas fa-code fa-2x text-primary"></i>
+            </div>
+            <h4 class="fw-semibold mb-3">No Scripts Found</h4>
+            <p class="text-muted mb-4">You haven't created any custom scripts yet.</p>
+            <div class="d-flex gap-3 justify-content-center">
+                <a href="{{ url_for('new_script') }}" class="btn btn-primary">
+                    <i class="fas fa-plus me-2"></i> Create Script
+                </a>
+                <a href="{{ url_for('upload_script') }}" class="btn btn-outline-primary">
+                    <i class="fas fa-upload me-2"></i> Upload Script
+                </a>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Script Guidelines -->
+<div class="card border-0 mb-5 animate-fade-in" style="animation-delay: 200ms;">
+    <div class="card-header p-4">
+        <h2 class="fw-bold fs-5 mb-0">Script Guidelines</h2>
+    </div>
+    <div class="card-body p-4">
+        <div class="row">
+            <div class="col-md-6">
+                <h4 class="fs-6 fw-bold mb-3">Requirements</h4>
+                <ul class="mb-4">
+                    <li>Scripts must be written in Python</li>
+                    <li>Each script must contain a <code>run_script(client)</code> function</li>
+                    <li>The <code>client</code> parameter is a Discord client instance</li>
+                    <li>Scripts should not contain infinite loops</li>
+                    <li>Scripts may use standard Python libraries only</li>
+                </ul>
+            </div>
+            <div class="col-md-6">
+                <h4 class="fs-6 fw-bold mb-3">Example</h4>
+                <pre class="p-3 bg-dark rounded"><code>def run_script(client):
+    """This function will be called by the main script."""
+    print("Custom script is running!")
+    
+    # Example: register an event
+    @client.event
+    async def on_message(message):
+        if message.author == client.user:
+            return
+            
+        if message.content.startswith('!hello'):
+            await message.channel.send('Hello from custom script!')</code></pre>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

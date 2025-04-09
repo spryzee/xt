@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}Error - LiveCord{% endblock %}
+
+{% block content %}
+<div class="min-h-screen flex items-center justify-content-center py-5">
+    <div class="col-md-8 col-lg-6 mx-auto">
+        <div class="card shadow-lg glass">
+            <div class="card-body text-center p-5">
+                <div class="mb-4 bg-danger/10 d-inline-flex p-4 rounded-circle">
+                    <i class="fas fa-exclamation-triangle fa-3x text-danger"></i>
+                </div>
+                <h2 class="display-6 mb-3">Something went wrong</h2>
+                <p class="lead mb-4 text-light-emphasis">{{ error }}</p>
+                
+                <div class="mt-2 bg-dark/50 rounded p-4 mb-4">
+                    <div class="d-flex align-items-start">
+                        <div class="me-3 text-info">
+                            <i class="fas fa-info-circle"></i>
+                        </div>
+                        <div class="text-start text-muted">
+                            <p class="mb-0">If you continue experiencing issues, please try refreshing the page or contact support for assistance.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="d-grid gap-2 d-sm-flex justify-content-center">
+                    <a href="{{ url_for('index') }}" class="btn btn-primary px-4 py-2">
+                        <i class="fas fa-home me-2"></i> Return to Home
+                    </a>
+                    <button onclick="window.history.back()" class="btn btn-outline-secondary px-4 py-2">
+                        <i class="fas fa-arrow-left me-2"></i> Go Back
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
